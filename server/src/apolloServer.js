@@ -15,7 +15,7 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 const whitelisted = ['LoginMutation', 'RegisterMutation']
 const schema = apolloApplication.createSchemaForApollo();
 // const schema = apolloApplication.schema;
-const executor = apolloApplication.createApolloExecutor();
+// const executor = apolloApplication.createApolloExecutor();
 
 const PORT = process.env.PORT || 4001
 

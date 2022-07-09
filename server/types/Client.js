@@ -33,7 +33,7 @@ export const ClientModule = createModule({
     }
 
     type Subscription {
-      clientRead: CustomType
+      clientRead: Client
     }
   `,
   resolvers: {
@@ -41,10 +41,8 @@ export const ClientModule = createModule({
       chats: (parent) => readChats({ clientId: parent.Id }),
     },
     Query: {
-      readClients: (_, args, ctx) =>  { 
-       ctx.injector.get(PubSub).publish('READ_CLIENTS', {
-          text: 'someone read clients'
-        })
+      readClients: (parent, args, ctx) =>  { 
+       ctx.injector.get(PubSub).publish('READ_CLIENTS', parent)
         console.log("Dispatched");
         //console.log(ctx.injector.get(PubSub))
         return readClients(args)
