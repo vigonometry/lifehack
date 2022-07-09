@@ -17,7 +17,7 @@ const schema = apolloApplication.createSchemaForApollo();
 // const schema = apolloApplication.schema;
 // const executor = apolloApplication.createApolloExecutor();
 
-const PORT = process.env.PORT || 4001
+const PORT = process.env.PORT || 4000
 
 const getUser = (token) => {
 	if (token) {

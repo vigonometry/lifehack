@@ -10,7 +10,7 @@ interface UserContextObject {
 
 export const UserContext = createContext<UserContextObject>(({ user: undefined, setUser: (user) => user}))
 
-export default function UserContextProvider(props: PropsWithChildren) {
+export default function UserContextProvider(props: PropsWithChildren<any>) {
 	const [user, setUser] = useState<User | null | undefined>(undefined)
 	const {data} = useQuery(CURRENT_USER)
 	const value = useMemo(
