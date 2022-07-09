@@ -1,37 +1,13 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { useQuery, gql } from '@apollo/client';
-import { User } from './types/user.type';
-
-const READ_CLIENTS = gql`
-  query ReadClients {
-    readClients {
-      username
-    }
-  } 
-`
+import React, { useContext, useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { UserContext } from "./services/userContext";
+import LoginPage from "./views/LoginPage";
+import { Title } from "@mantine/core";
 
 function App() {
-  const { loading, error, data } = useQuery(READ_CLIENTS);
-
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error</p>
-
-  const success = () => {
-    console.log(data);
-    return (
-      <div>
-        { data.readClients.map((user:User, idx:React.Key) => <p key={idx}>{user.username}</p>) }
-
-      </div>
-    )
-  }
-  return (
-    <>
-    { success() }
-    </>
-  );
+  const { user } = useContext(UserContext);
+  return <LoginPage />;
 }
 
 export default App;

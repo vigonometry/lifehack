@@ -18,8 +18,8 @@ export const CLIENT_REGISTER_MUTATION = gql`
     }
 `
 export const COUNSELLOR_REGISTER_MUTATION = gql`
-    mutation CounsellorRegisterMutation($username: String!, $email: String!, $password: String!, institution: String!, course: String!) {
-        createCounsellor(username: $username, email: $email, password: $password, institution: institution, course: course) {
+    mutation CounsellorRegisterMutation($username: String!, $email: String!, $password: String!, $institution: String!, $course: String!) {
+        createCounsellor(username: $username, email: $email, password: $password, institution: $institution, course: $course) {
             response
             error
         }
