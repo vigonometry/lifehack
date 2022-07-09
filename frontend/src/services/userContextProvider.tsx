@@ -22,16 +22,29 @@ export const UserContext = createContext<UserContextObject>(({
 
 export default function UserContextProvider(props: PropsWithChildren<any>) {
 	const [user, setUser] = useState<User | null | undefined>(undefined)
-	const [token, setToken] = useLocalStorage<null | string>({ key: AUTH_TOKEN, defaultValue: null });
+	const [token, setToken] = useLocalStorage<any>({ key: AUTH_TOKEN, defaultValue: null });
 
-	const {data} = useQuery(CURRENT_USER)
+	const {data} = useQuery(CURRENT_USER, {
+		onCompleted: (data:any) => {
+			console.log("Query complete", data);
+		},
+		onError: (error) => {
+			console.log("Query err", error);
+		}
+	})
+	console.log(data);
 	const value = useMemo(
 		() => ({ user, setUser, token, setToken }),
 		[user]
 	)
 	useEffect(() => {
-		if (data) setUser(data.currentUser)
-	}, [data, setUser])
+		if (data) { 
+			console.log("Data in useEff", data);
+			setUser(data.currentUser) 
+		} else {
+			console.log("No data but re-ran", data)
+		}
+	}, [data, token, setUser])
 	return (
 		<UserContext.Provider value={value}>
 			{props.children}

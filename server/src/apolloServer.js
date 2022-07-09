@@ -21,10 +21,14 @@ console.log(process.env.PORT)
 const PORT = process.env.PORT || 4001
 
 const getUser = (token) => {
+	console.log("TOken in getUser", token);
 	if (token) {
 		try {
-			return jwt.verify(token, "nnamdi") // returns contents after decoding token
+			const retVerify = jwt.verify(token, "nnamdi") // returns contents after decoding token
+			return retVerify;
+			
 		} catch (err) {
+			console.log("Err in auth", err);
 			return { error: true, msg: "Session invalid"}
 		}
 	}
@@ -43,6 +47,8 @@ const apolloContext = async ({ req }) => {
 			console.log("User must be logged ins")
 			throw new AuthenticationError("You must be logged in!")
 		}	
+
+		console.log("USER FROM CONTEXT", user);
 		return user
 }
 

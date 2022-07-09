@@ -7,17 +7,10 @@ export const OnlineUsersModule = createModule({
         type Query {
             onlineUsers: [User]
         }
-
-        type Mutation {
-            addOnlineUser(user: User):HTTPResponse
-        }
     `,
     resolvers: {
         Query: {
             onlineUsers: (parent, args, ctx) => getOnlineUsers(),
         },
-        Mutation: {
-
-        }
     }
 })

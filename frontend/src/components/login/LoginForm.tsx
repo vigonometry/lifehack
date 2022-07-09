@@ -34,7 +34,9 @@ const LoginForm = () => {
     onCompleted: ({ login }) => {
       if (login.response) {
         //localStorage.setItem(AUTH_TOKEN, login.response);
+        console.log("Here");
         userObj.setToken(login.response);
+        console.log("Here");
         window.location.reload();
       } else {
         console.log("Response err", login);

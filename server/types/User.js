@@ -29,18 +29,31 @@ export const UserModule = createModule({
     }
   `,
   resolvers: {
+    User: {
+      __resolveType: obj => {
+        if (obj.isClient) return "Client";
+        return "Counsellor";
+      }
+    },
     Query: {
       currentUser: async (_, __, context) => {
-        var user = await readClient({ id: context.id });
-        if (!user) user = await readCounsellor({ id: context.id });
+        console.log("Context in currUser:", context.id);
+        let isClient = true;
+        var user = await readClient({ _id: context.id });
+        if (!user) { 
+          user = await readCounsellor({ _id: context.id });
+          isClient = false;
+        };
+        console.log("User in currUser", user);
 
-        return user;
+        // needed to resolve the type to Client / Counsellor
+        return {...user, isClient };
       },
     },
     Mutation: {
         login: async(_, args) => {
             const {username, password} = args;
-            const isClient = true;
+            let isClient = true;
             var user = await readClient({username: username, password: password});
             if (!user) { 
               user = await readCounsellor({username: username, password: password}) 
