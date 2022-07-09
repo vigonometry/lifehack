@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { readClient } from "../db_functions/Client.js";
 import { readCounsellor } from "../db_functions/Counsellor.js";
 import { addOnlineUser, deleteOnlineUser } from "../db_functions/OnlineUsers.js";
+import { publishOnlineUsers } from "./OnlineUsers.js";
 
 export const UserModule = createModule({
   id: "user",
@@ -54,7 +55,7 @@ export const UserModule = createModule({
       },
     },
     Mutation: {
-        login: async(_, args) => {
+        login: async(_, args, ctx) => {
             const {username, password} = args;
             let isClient = true;
             var user = await readClient({username: username, password: password});
@@ -67,6 +68,9 @@ export const UserModule = createModule({
             if (!valid) return { error: "Incorrect password entered" }
             console.log("User in login", user);
             await addOnlineUser(user._id, isClient);
+
+            await publishOnlineUsers(ctx);
+  
             return { response: jwt.sign({id: user._id, username: user.username, isClient:isClient }, "nnamdi")}
         },
 
@@ -76,6 +80,8 @@ export const UserModule = createModule({
 
           // console.log(ctx);
           const res = await deleteOnlineUser(ctx.id);
+
+          await publishOnlineUsers(ctx);
           return { response: res }
 
 
