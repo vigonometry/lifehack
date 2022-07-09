@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { createContext, Dispatch, PropsWithChildren, SetStateAction, useEffect, useMemo, useState } from "react";
-import { User } from "../types/user.type"
-import { CURRENT_USER } from "../queries/auth"
+import { CURRENT_USER } from "../queries/auth";
+import { User } from "../types/user.type";
 
 interface UserContextObject {
 	user: User | null | undefined

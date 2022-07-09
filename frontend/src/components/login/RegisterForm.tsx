@@ -122,6 +122,7 @@ const RegisterForm = () => {
         ) : (
           <></>
         )}
+        <Button onClick={handleSubmit}>Register Now</Button>
       </Stack>
     </Paper>
   );

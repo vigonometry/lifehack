@@ -39,8 +39,8 @@ export const UserModule = createModule({
     Mutation: {
         login: async(_, args) => {
             const {username, password} = args;
-            var user = await readClient({username: username});
-            if (!user) user = await readCounsellor({username: username})
+            var user = await readClient({username: username, password: password});
+            if (!user) user = await readCounsellor({username: username, password: password})
             if (!user) return {error: "Username is not in our data base"}
             const valid = password === user.password;
             if (!valid) return { error: "Incorrect password entered" }
