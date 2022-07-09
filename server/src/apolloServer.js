@@ -45,9 +45,11 @@ const apolloContext = async ({ req }) => {
 export default async function startApolloServer() {
 	const app = express()
 	const httpServer = http.createServer(app)
-
+	
+	// ws://localhost:4000/graphql
 	const wsServer = new WebSocketServer({
 		server: httpServer,
+		path: '/graphql'
 	});
 
 	const serverCleanup = useServer({ schema }, wsServer)
