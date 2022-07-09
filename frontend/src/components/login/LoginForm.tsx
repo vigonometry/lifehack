@@ -30,9 +30,11 @@ const LoginForm = () => {
     },
     onCompleted: ({ login }) => {
       if (login.response) {
+        console.log("Response login");
         localStorage.setItem(AUTH_TOKEN, login.response);
         window.location.reload();
       } else {
+        console.log("Response err", login);
         setLoading(false);
         showNotification({
           title: "Login failed",

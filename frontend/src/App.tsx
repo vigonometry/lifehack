@@ -8,15 +8,15 @@ import { AUTH_TOKEN } from "./constants/authToken";
 
 function App() {
   const { user, setUser } = useContext(UserContext);
-
+  console.log(user);
   const handleLogOut = () => {
     console.log(user);
     setUser(null);
     localStorage.removeItem(AUTH_TOKEN);
     window.location.reload();
   };
-  if (user === undefined) return <></>
-  if (user === null) return <LoginPage />;
+  //if (user === undefined) return <></>
+  if (user == null) return <LoginPage />;
   return (
     <Stack>
       <Title>Yeeter Skeeter</Title>
