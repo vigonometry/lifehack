@@ -55,7 +55,18 @@ export default async function startApolloServer() {
 		// path: '/graphql'
 	});
 
-	const serverCleanup = useServer({ schema }, wsServer)
+	const serverCleanup = useServer(
+		{
+			schema ,
+			onConnect: async (ctx) => {
+				console.log("onConnect in server");
+			},
+			onDisconnect(ctx, code, reason) {
+				console.log('onDisconnect in server');
+			}
+		}, 
+		wsServer
+	)
 
 	const apolloServer = new ApolloServer({
 		schema,
