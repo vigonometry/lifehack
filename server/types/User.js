@@ -33,6 +33,7 @@ export const UserModule = createModule({
     User: {
       __resolveType: obj => {
         if (obj.isClient) return "Client";
+        console.log("Obj from resolve type", obj);
         return "Counsellor";
       }
     },

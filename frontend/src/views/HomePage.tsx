@@ -12,7 +12,7 @@ const HomePage = () => {
       console.log("Logout succ");
     },
     onError: (err) => {
-      console.log("Logout err");
+      console.log("Logout err", err);
     }
   })
   const handleLogOut = async() => {

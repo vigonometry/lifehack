@@ -26,16 +26,31 @@ export const COUNSELLOR_REGISTER_MUTATION = gql`
     }
 `
 
+// export const CURRENT_USER = gql`
+//     query CurrentUser {
+//         currentUser {
+//             _id
+//             username
+//             chats {
+//                 clientId
+//                 counsellorId
+//                 messages
+//             }
+//             ... on Counsellor {
+//                 institution
+//                 course
+//             }
+//         }
+//     }
+// `
+
+//chats not defined yet use these
 export const CURRENT_USER = gql`
     query CurrentUser {
         currentUser {
             _id
             username
-            chats {
-                clientId
-                counsellorId
-                messages
-            }
+            email
             ... on Counsellor {
                 institution
                 course
