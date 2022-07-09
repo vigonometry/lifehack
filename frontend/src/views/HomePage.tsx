@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Button, Stack, Title } from "@mantine/core";
+import { Button, Center, Stack, Title, Text } from "@mantine/core";
 import { UserContext } from "../services/userContextProvider";
 import { AUTH_TOKEN } from "../constants/authToken";
 
@@ -15,7 +15,15 @@ const HomePage = () => {
 
   return (
     <Stack>
-      <Title>Yeeter Skeeter</Title>
+      <Center>
+          <Title>Welcome, {user?.username}</Title>
+        </Center>
+
+        <Center>
+          <Title order={2}>Online counsellors:</Title>
+        </Center>
+
+      
       <Button color="red" variant="light" onClick={handleLogOut}>
         Log Out
       </Button>
