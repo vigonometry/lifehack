@@ -57,7 +57,7 @@ export const ClientModule = createModule({
 
     Subscription: {
       clientRead: {
-        subscribe: () => { 
+        subscribe: (_, args, ctx) => { 
           return ctx.injector.get(PubSub).asyncIterator(['READ_CLIENTS']) 
         }
       }

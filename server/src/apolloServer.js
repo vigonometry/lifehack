@@ -1,7 +1,7 @@
 import { apolloApplication } from './apolloApplication.js';
 import { ApolloServer, AuthenticationError } from 'apollo-server-express';
 import http from 'http';
-import express from 'express';
+import express, { application } from 'express';
 import jwt from 'jsonwebtoken';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 
@@ -14,7 +14,10 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 
 const whitelisted = ['LoginMutation', 'RegisterMutation']
 const schema = apolloApplication.createSchemaForApollo();
-const PORT = process.env.PORT || 4000
+// const schema = apolloApplication.schema;
+const executor = apolloApplication.createApolloExecutor();
+
+const PORT = process.env.PORT || 4001
 
 const getUser = (token) => {
 	if (token) {
@@ -49,13 +52,14 @@ export default async function startApolloServer() {
 	// ws://localhost:4000/graphql
 	const wsServer = new WebSocketServer({
 		server: httpServer,
-		path: '/graphql'
+		// path: '/graphql'
 	});
 
 	const serverCleanup = useServer({ schema }, wsServer)
 
 	const apolloServer = new ApolloServer({
 		schema,
+		// executor,
 		csrfPrevention: true,
 		plugins: [
 			ApolloServerPluginDrainHttpServer({ httpServer }),
