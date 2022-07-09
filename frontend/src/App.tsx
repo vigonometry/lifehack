@@ -1,30 +1,17 @@
-import React, { useContext, useEffect } from "react";
-import logo from "./logo.svg";
+import { useContext } from "react";
 import "./App.css";
 import { UserContext } from "./services/userContextProvider";
 import LoginPage from "./views/LoginPage";
-import { Button, Stack, Title } from "@mantine/core";
-import { AUTH_TOKEN } from "./constants/authToken";
+import HomePage from "./views/HomePage";
+import { Title } from "@mantine/core";
 
 function App() {
-  const { user, setUser } = useContext(UserContext);
-  console.log(user);
-  const handleLogOut = () => {
-    console.log(user);
-    setUser(null);
-    localStorage.removeItem(AUTH_TOKEN);
-    window.location.reload();
-  };
-  //if (user === undefined) return <></>
-  if (user == null) return <LoginPage />;
-  return (
-    <Stack>
-      <Title>Yeeter Skeeter</Title>
-      <Button color="red" variant="light" onClick={handleLogOut}>
-        Log Out
-      </Button>
-    </Stack>
-  );
+  const user = useContext(UserContext);
+  {console.log(user)}
+
+  //if (user === undefined) return <Title>Help</Title>;
+  if (user?.token == null) return <LoginPage />;
+  return <HomePage />;
 }
 
 export default App;

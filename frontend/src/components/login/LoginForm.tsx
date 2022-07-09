@@ -12,9 +12,12 @@ import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { LOGIN_MUTATION } from "../../queries/auth";
 import { AUTH_TOKEN } from "../../constants/authToken";
+import { useContext } from "react";
+import { UserContext } from "../../services/userContextProvider";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
+  const userObj = useContext(UserContext);
 
   const form = useForm({
     initialValues: {
@@ -30,8 +33,8 @@ const LoginForm = () => {
     },
     onCompleted: ({ login }) => {
       if (login.response) {
-        console.log("Response login");
-        localStorage.setItem(AUTH_TOKEN, login.response);
+        //localStorage.setItem(AUTH_TOKEN, login.response);
+        userObj.setToken(login.response);
         window.location.reload();
       } else {
         console.log("Response err", login);

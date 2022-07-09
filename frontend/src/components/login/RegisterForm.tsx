@@ -17,8 +17,11 @@ import {
   COUNSELLOR_REGISTER_MUTATION,
 } from "../../queries/auth";
 import { AUTH_TOKEN } from "../../constants/authToken";
+import { useContext } from "react";
+import { UserContext } from "../../services/userContextProvider";
 
 const RegisterForm = () => {
+  const userObj = useContext(UserContext);
   const form = useForm({
     initialValues: {
       role: "Client",
@@ -38,7 +41,8 @@ const RegisterForm = () => {
     },
     onCompleted: ({ registerClient }) => {
       if (registerClient.response) {
-        localStorage.setItem(AUTH_TOKEN, registerClient.response);
+        //localStorage.setItem(AUTH_TOKEN, registerClient.response);
+        userObj.setToken(registerClient.response);
         window.location.reload();
       } else {
         showNotification({
@@ -59,7 +63,8 @@ const RegisterForm = () => {
     },
     onCompleted: ({ registerCounsellor }) => {
       if (registerCounsellor.response) {
-        localStorage.setItem(AUTH_TOKEN, registerCounsellor.response);
+        //localStorage.setItem(AUTH_TOKEN, registerCounsellor.response);
+        userObj.setToken(registerCounsellor.response);
         window.location.reload();
       } else {
         showNotification({
