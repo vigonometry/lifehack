@@ -5,9 +5,11 @@ import { ChatModule } from "../types/Chat.js"
 import { UserModule } from "../types/User.js"
 import { HTTPResponseModule } from "../types/HTTPResponse.js"
 import { PubSub } from "graphql-subscriptions";
+import { OnlineUsersModule } from "../types/OnlineUsers.js";
 
 export const apolloApplication = createApplication({
 	modules: [
+		OnlineUsersModule,
 		ClientModule,
 		CounsellorModule,
 		ChatModule,

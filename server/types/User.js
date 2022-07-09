@@ -13,6 +13,7 @@ export const UserModule = createModule({
       email: String!
       password: String!
       chats: [Chat]!
+      isClient: Boolean
     }
 
     type AppContext {

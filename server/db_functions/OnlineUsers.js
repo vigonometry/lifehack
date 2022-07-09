@@ -3,6 +3,7 @@ import {
   unpackMultipleDocuments,
   unpackSingleDocument,
 } from "../utils/unpackDocument.js";
+import { readUser } from "./utils/readUser.js";
 
 // collection that stores ids of online users - need to add and delete upon login / logout
 const schemaTypes = mongoose.Schema.Types;
@@ -60,8 +61,16 @@ export const deleteOnlineUser = async(id) => {
     // .catch(err => console.log("Deleting online user err", err));
 }
 
+
+
 export const getOnlineUsers = (id, isClient) => {
   return OnlineUserObject.find({})
     .then(unpackMultipleDocuments)
+    .then(array => array.map(obj => readUser({ _id: obj.id })))
+    .then(promises => Promise.all(promises))
+    .then(values => {
+      console.log("Values of each user", values);
+      return values;
+    })
     .catch(err => console.log("Error getting online users:", err))
 }

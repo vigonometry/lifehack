@@ -34,3 +34,5 @@ export const ChatModule = createModule({
     },
   },
 });
+
+export const x = 2;

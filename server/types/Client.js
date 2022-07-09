@@ -13,6 +13,7 @@ export const ClientModule = createModule({
       email: String!
       password: String!
       chats: [Chat]!
+      isClient: Boolean
     }
 
     type Query {

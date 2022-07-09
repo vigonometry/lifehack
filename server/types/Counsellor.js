@@ -11,6 +11,7 @@ export const CounsellorModule = createModule({
       institution: String!
       course: String!
       chats: [Chat]!
+      isClient: Boolean
     }
 
     type Query {
