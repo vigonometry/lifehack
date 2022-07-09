@@ -12,6 +12,7 @@
     "express": "^4.18.1",
     "graphql": "^15.8.0",
     "graphql-modules": "^2.0.0",
+    "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.9.1",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^8.5.1",
