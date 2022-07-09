@@ -23,22 +23,6 @@ export const OnlineUserObject = mongoose.model("OnlineUser", onlineUserSchema);
 
 export const addOnlineUser = async(id, isClient) => {
   console.log("Add user with:", id, isClient);
-  // const exists = OnlineUserObject
-  //   .findOne({ id, isClient })
-  //   .then((res) => {
-  //     if (res) {
-  //       console.log("User already in online users");
-  //       return true;
-  //     } else {
-  //       console.log("User is not there");
-  //       return false;
-  //     }
-  //   })
-  //   .catch(err => {
-  //     console.log("Error checking exists", err);
-  //     return false;
-  //   })
-
   const exists = await OnlineUserObject.findOne({ id, isClient});
 
   if (exists) {
@@ -61,6 +45,19 @@ export const addOnlineUser = async(id, isClient) => {
   }
   );
   return httpResponse;
+}
+
+export const deleteOnlineUser = async(id) => {
+  try {
+    const res = await OnlineUserObject.findOneAndDelete({ id: id });
+    console.log("Del done");
+    return res;
+  } catch (error) {
+    console.log("Err del:", error);
+    return error;
+  }
+    // .then(res => console.log("After deleting user", res))
+    // .catch(err => console.log("Deleting online user err", err));
 }
 
 export const getOnlineUsers = (id, isClient) => {

@@ -1,6 +1,7 @@
 import { Chat } from "./chat.type";
 
 export interface User {
+    _id:string
     _typename: string,
     username: string,
     email: string,
