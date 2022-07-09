@@ -62,15 +62,15 @@ export const deleteOnlineUser = async(id) => {
 }
 
 
-
-export const getOnlineUsers = (id, isClient) => {
+// if isClient true, show those who are not isClient and v.v
+export const getOnlineUsers = (isClient) => {
   return OnlineUserObject.find({})
     .then(unpackMultipleDocuments)
     .then(array => array.map(obj => readUser({ _id: obj.id })))
     .then(promises => Promise.all(promises))
     .then(values => {
       console.log("Values of each user", values);
-      return values;
+      return values.filter(obj => obj.isClient == !isClient)
     })
     .catch(err => console.log("Error getting online users:", err))
 }

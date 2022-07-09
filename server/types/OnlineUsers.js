@@ -7,19 +7,29 @@ export const OnlineUsersModule = createModule({
         type Query {
             onlineUsers: [User]
         }
+
+        type Subscription {
+            getOnlineUsers: [User]
+        }
     `,
     resolvers: {
         Query : {
             onlineUsers: async(parents, args, ctx) => {
-                console.log("Get onlineUsers start");
+                console.log("Get onlineUsers start", ctx);
+                
                 try {
-                    const res = await getOnlineUsers();
+                    const res = await getOnlineUsers(ctx.isClient);
                     console.log("Res from getOnline", res);
                     return res;
                     
                 } catch (error) {
                     console.log("Err getting ONline", error);
                 }
+            }
+        },
+        Subscription: {
+            getOnlineUsers: (parents, args, ctx) => {
+
             }
         }
     }

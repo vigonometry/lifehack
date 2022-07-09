@@ -4,6 +4,7 @@ import { UserContext } from "../services/userContextProvider";
 import { AUTH_TOKEN } from "../constants/authToken";
 import { useMutation } from "@apollo/client";
 import { LOGOUT_USER } from "../queries/auth";
+import AvailablePartners from "./AvailablePartners";
 
 const HomePage = () => {
   const { user, setUser, setToken } = useContext(UserContext);
@@ -34,6 +35,8 @@ const HomePage = () => {
         <Center>
           <Title order={2}>Online {user?.isClient ? "Counsellors" : "Clients"}:</Title>
         </Center>
+
+        <AvailablePartners />
 
       
       <Button color="red" variant="light" onClick={handleLogOut}>
