@@ -5,6 +5,12 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 
+// imports for WebSockets support
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+
+
 
 const whitelisted = ['LoginMutation', 'RegisterMutation']
 const schema = apolloApplication.createSchemaForApollo();
@@ -39,12 +45,35 @@ const apolloContext = async ({ req }) => {
 export default async function startApolloServer() {
 	const app = express()
 	const httpServer = http.createServer(app)
+
+	const wsServer = new WebSocketServer({
+		server: httpServer,
+	});
+
+	const serverCleanup = useServer({ schema }, wsServer)
+
 	const apolloServer = new ApolloServer({
 		schema,
 		csrfPrevention: true,
-		plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+		plugins: [
+			ApolloServerPluginDrainHttpServer({ httpServer }),
+			{
+				async serverWillStart() {
+					console.log("WS test")
+					return {
+						async drainServer() {
+							await serverCleanup.dispose();
+						}
+					}
+				}
+			}
+		],
 		context: apolloContext
-	})
+	});
+
+	
+
+	
 	await apolloServer.start()
 	apolloServer.applyMiddleware({
 		app,
