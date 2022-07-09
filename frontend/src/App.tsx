@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { useQuery, gql } from '@apollo/client';
-import { User } from './types/User';
+import { User } from './types/user.type';
 
 const READ_CLIENTS = gql`
   query ReadClients {

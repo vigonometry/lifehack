@@ -13,6 +13,7 @@ export const ChatModule = createModule({
 
     type Query {
       contextChats: [Chat!]!
+      contextChat: Chat
     }
     type Mutation {
       createChat(clientId: String!, counsellorId: String!): HTTPResponse
@@ -22,11 +23,12 @@ export const ChatModule = createModule({
   `,
   resolvers: {
     Query: {
-      contextChats: (_, __, context) => readChats({ studentId: context.id }),
+      contextChats: (_, __, context) => readChats({ userId: context._id }),
+      contextChat: (_, __, context) => readChat({ userId: context._id })
     },
     Mutation: {
-      createChat: (_, args, context) =>
-        createChat({ ...args, studentId: context.id }),
+      createChat: (_, args) =>
+        createChat({ ...args }),
       updateChat: async (_, args) => updateChat({ _id: args._id }, args),
       deleteChat: (_, args) => deleteChat(args),
     },

@@ -40,7 +40,10 @@ export const readChat = (params) => {
 };
 
 export const updateChat = (query, update) => {
-  return ChatObject.findOneAndUpdate(query, update, { upsert: true, new: true })
+  return ChatObject.findOne(query)
+    .then((res) => {
+      res.messages.push(update);
+    })
     .then((res) => ({ response: res._id }))
     .catch((err) => ({ error: err }));
 };
