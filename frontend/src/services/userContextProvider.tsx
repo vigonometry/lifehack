@@ -40,7 +40,11 @@ export default function UserContextProvider(props: PropsWithChildren<any>) {
 	useEffect(() => {
 		if (data) { 
 			console.log("Data in useEff", data);
-			setUser(data.currentUser) 
+			const isClient = data.currentUser.__typename == "Client" ? true : false;
+			setUser({
+				 ...data.currentUser,
+				 isClient
+			}) 
 		} else {
 			console.log("No data but re-ran", data)
 		}

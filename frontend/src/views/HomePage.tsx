@@ -32,7 +32,7 @@ const HomePage = () => {
         </Center>
 
         <Center>
-          <Title order={2}>Online counsellors:</Title>
+          <Title order={2}>Online {user?.isClient ? "Counsellors" : "Clients"}:</Title>
         </Center>
 
       

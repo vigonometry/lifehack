@@ -8,5 +8,6 @@ export interface User {
     password: string,
     institution: string | null,
     course: string | null,
-    chat: Chat[]
+    chat: Chat[],
+    isClient:boolean
 }
