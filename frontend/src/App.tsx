@@ -13,16 +13,6 @@ const READ_CLIENTS = gql`
 `
 
 function App() {
-  // useEffect(() => {
-  //   console.log("App use eff");
-
-  //   client
-  //     .query({
-  //       query: READ_CLIENTS,
-  //     })
-  //     .then((result:any) => console.log(result))
-  //     .catch((err:any) => console.log(err));
-  // }, [])
   const { loading, error, data } = useQuery(READ_CLIENTS);
 
   if (loading) return <p>Loading...</p>

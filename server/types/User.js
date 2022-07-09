@@ -1,5 +1,7 @@
 import { createModule, gql } from "graphql-modules";
 import jwt from "jsonwebtoken";
+import { readClient } from "../db_functions/Client.js";
+import { readCounsellor } from "../db_functions/Counsellor.js";
 
 export const UserModule = createModule({
   id: "user",
