@@ -4,12 +4,13 @@ import { UserContext } from "../services/userContextProvider";
 import { AUTH_TOKEN } from "../constants/authToken";
 
 const HomePage = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, setToken } = useContext(UserContext);
   const handleLogOut = () => {
     console.log(user);
     setUser(null);
-    localStorage.removeItem(AUTH_TOKEN);
-    window.location.reload();
+    setToken(null);
+    //localStorage.removeItem(AUTH_TOKEN);
+    //window.location.reload();
   };
 
   return (
