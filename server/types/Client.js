@@ -1,5 +1,6 @@
 import { createModule, gql } from "graphql-modules";
 import { readClients, readClient, createClient } from "../db_functions/Client.js";
+import { readChats } from "../db_functions/Chat.js"
 export const ClientModule = createModule({
   id: "client",
   typeDefs: gql`
