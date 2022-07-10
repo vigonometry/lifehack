@@ -17,17 +17,19 @@ type SubscriptionData = {
     data:getOnlineUsers
 }
 export default function AvailablePartners(props: PropType) {
-    const { user } = useContext(UserContext);
+    // const { user } = useContext(UserContext);
     const [data, setData] = useState([]);
     console.log("props iscleitn", props.isClient)
+
     const setPartners = (data:any) => {
-        console.log("Data b4 filter", data, user);
-        const after = data.filter((obj:any) => obj.isClient == props.isClient)
+        console.log("B4 filter isClient", props.isClient);
+        const after = data.filter((obj:any) => obj.isClient != props.isClient)
         console.log("After filter", after);
         setData(after);
     }
 
     const { loading, error, data: dataFromQuery } = useQuery<any>(GET_ONLINE_USERS, {
+        fetchPolicy: 'no-cache',
         onCompleted:(data) => {
             console.log("Get online", data);
             setPartners(data.onlineUsers);

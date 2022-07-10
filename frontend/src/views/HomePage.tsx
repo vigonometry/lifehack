@@ -51,7 +51,7 @@ const HomePage = () => {
           <Title order={2}>Online {user?.isClient ? "Counsellors" : "Clients"}:</Title>
         </Center>
 
-        <AvailablePartners isClient={user?.isClient}/>
+        { user == undefined ? <p>Loading</p> : <AvailablePartners isClient={user.isClient}/> }
 
       
       <Button color="red" variant="light" onClick={handleLogOut}>
