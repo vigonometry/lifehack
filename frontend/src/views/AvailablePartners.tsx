@@ -1,18 +1,55 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useSubscription } from '@apollo/client';
 import React from 'react';
 import { useContext, useState, useEffect } from 'react';
-import { GET_ONLINE_USERS } from '../queries/users';
+import { GET_ONLINE_USERS, SUBSCRIBE_ONLINE_USERS } from '../queries/users';
+import { UserContext } from '../services/userContextProvider';
 import { User } from '../types/user.type';
 
-export default function AvailablePartners() {
-    const { loading, error, data } = useQuery<any>(GET_ONLINE_USERS, {
+type PropType = {
+    isClient:any
+}
+
+type getOnlineUsers = {
+    getOnlineUsers: User[]
+}
+
+type SubscriptionData = {
+    data:getOnlineUsers
+}
+export default function AvailablePartners(props: PropType) {
+    const { user } = useContext(UserContext);
+    const [data, setData] = useState([]);
+    console.log("props iscleitn", props.isClient)
+    const setPartners = (data:any) => {
+        console.log("Data b4 filter", data, user);
+        const after = data.filter((obj:any) => obj.isClient == props.isClient)
+        console.log("After filter", after);
+        setData(after);
+    }
+
+    const { loading, error, data: dataFromQuery } = useQuery<any>(GET_ONLINE_USERS, {
         onCompleted:(data) => {
             console.log("Get online", data);
+            setPartners(data.onlineUsers);
         },
         onError: (error) => {
             console.log("Get online err", error);
         }
     });
+
+    const {   } = useSubscription<SubscriptionData>(SUBSCRIBE_ONLINE_USERS, {
+        onSubscriptionData:(options) => {
+            console.log("Options ")
+            const { subscriptionData } = options;
+            // @ts-ignore
+            console.log("Received sub data", subscriptionData.data.getOnlineUsers);
+            // @ts-ignore
+            if (subscriptionData?.data?.getOnlineUsers == undefined) return;
+            // @ts-ignore
+            setPartners(subscriptionData.data.getOnlineUsers);
+        }
+    });
+
     if (loading) return <p>Loading...</p>
     if (error) {
         console.log(error);
@@ -23,7 +60,7 @@ export default function AvailablePartners() {
 
     return (
         <ul>
-            { data.onlineUsers.map((obj:any, idx:number) => {
+            { data.map((obj:any, idx:number) => {
                  return <li key={idx}>{obj.username}</li> 
             }) }
         </ul>

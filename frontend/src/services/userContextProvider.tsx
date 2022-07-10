@@ -4,6 +4,7 @@ import { createContext, Dispatch, PropsWithChildren, SetStateAction, useEffect, 
 import { AUTH_TOKEN } from "../constants/authToken";
 import { CURRENT_USER } from "../queries/auth";
 import { User } from "../types/user.type";
+import { isClient as isClientFn } from '../utils/checkUserType';
 
 interface UserContextObject {
 	user: User | null | undefined
@@ -26,7 +27,16 @@ export default function UserContextProvider(props: PropsWithChildren<any>) {
 
 	const {data} = useQuery(CURRENT_USER, {
 		onCompleted: (data:any) => {
-			console.log("Query complete", data);
+			console.log("Query complete", data.currentUser);
+			const isClient:any = data.currentUser.__typename == "Client";
+			console.log("ISCLIENT", isClient);
+			const newUser = {
+				...data.currentUser,
+				isClient
+		   }
+
+		   console.log("NEW USER", newUser);
+		   setUser(newUser); 
 		},
 		onError: (error) => {
 			console.log("Query err", error);
@@ -39,12 +49,16 @@ export default function UserContextProvider(props: PropsWithChildren<any>) {
 	)
 	useEffect(() => {
 		if (data) { 
-			console.log("Data in useEff", data);
-			const isClient = data.currentUser.__typename == "Client" ? true : false;
-			setUser({
-				 ...data.currentUser,
-				 isClient
-			}) 
+			console.log("Data in useEff", data.currentUser);
+			const isClient:any = data.currentUser.__typename == "Client";
+			console.log("ISCLIENT", isClient);
+			const newUser = {
+				...data.currentUser,
+				isClient
+		   }
+
+		   console.log("NEW USER", newUser);
+		   setUser(newUser);
 		} else {
 			console.log("No data but re-ran", data)
 		}
