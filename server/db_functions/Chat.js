@@ -16,7 +16,6 @@ export const ChatSchema = mongoose.Schema({
 
 export const ChatObject = mongoose.model("Chat", ChatSchema);
 
-
 export const readChats = (params) => {
   return ChatObject.find(params)
     .then(unpackMultipleDocuments)
@@ -26,6 +25,14 @@ export const readChat = (params) => {
   return ChatObject.findOne(params)
     .then(unpackSingleDocument)
     .catch((err) => console.log("Error while getting Chat"));
+};
+
+export const createChat = (params) => {
+  const httpResponse = new ChatObject(params)
+    .save()
+    .then((res) => ({ response: res._id }))
+    .catch((err) => ({ error: err }));
+  return httpResponse;
 };
 
 export const updateChat = (query, update) => {

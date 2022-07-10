@@ -1,4 +1,5 @@
 import { createModule, gql } from "graphql-modules";
+import { readChats } from "../db_functions/Chat.js";
 import { readCounsellors, readCounsellor, createCounsellor } from "../db_functions/Counsellor.js";
 export const CounsellorModule = createModule({
   id: "counsellor",
