@@ -1,17 +1,17 @@
 import { gql } from "@apollo/client";
 
-export const CREATE_CHAT = gql`
-    mutation CreateChat($clientId: String, $counsellorId: String, ) {
-        createTask(clientId: $clientId, counsellorId: $counsellorId) {
-			response
-			error
-		}
+export const READ_CHAT = gql`
+    mutation ReadChat($userId: string!) {
+        readChat(userId: $userId) {
+            response
+            error
+        }
     }
 `
 
 export const UPDATE_CHAT = gql`
-    mutation UpdateChat($_id: ID!, $message: string!) {
-        updateChat(_id: $_id, message: $message) {
+    mutation UpdateChat($userId: String!, $message: string!) {
+        updateChat(userId: $userId, message: $message) {
             response
             error
         }

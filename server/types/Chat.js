@@ -1,5 +1,5 @@
 import { createModule, gql } from "graphql-modules";
-import { createChat, updateChat, deleteChat, readChats, readChat } from "../db_functions/Chat.js";
+import { updateChat, deleteChat, readChats, readChat } from "../db_functions/Chat.js";
 
 export const ChatModule = createModule({
   id: "chat",
@@ -16,8 +16,7 @@ export const ChatModule = createModule({
       contextChat: Chat
     }
     type Mutation {
-      createChat(clientId: String!, counsellorId: String!): HTTPResponse
-      updateChat(_id: ID!, message: String!): HTTPResponse
+      updateChat(userId: String!, message: String!): HTTPResponse
       deleteChat(_id: ID!): HTTPResponse
     }
   `,
@@ -27,8 +26,6 @@ export const ChatModule = createModule({
       contextChat: (_, __, context) => readChat({ userId: context._id })
     },
     Mutation: {
-      createChat: (_, args) =>
-        createChat({ ...args }),
       updateChat: async (_, args) => updateChat({ _id: args._id }, args),
       deleteChat: (_, args) => deleteChat(args),
     },

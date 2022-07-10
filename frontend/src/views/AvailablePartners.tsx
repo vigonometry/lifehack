@@ -1,71 +1,100 @@
-import { useQuery, useSubscription } from '@apollo/client';
-import React from 'react';
-import { useContext, useState, useEffect } from 'react';
-import { GET_ONLINE_USERS, SUBSCRIBE_ONLINE_USERS } from '../queries/users';
-import { UserContext } from '../services/userContextProvider';
-import { User } from '../types/user.type';
+import { useQuery, useSubscription } from "@apollo/client";
+import { Center, createStyles, Grid, SimpleGrid } from "@mantine/core";
+import React from "react";
+import { useContext, useState, useEffect } from "react";
+import UserCard from "../components/user/UserCard";
+import { GET_ONLINE_USERS, SUBSCRIBE_ONLINE_USERS } from "../queries/users";
+import { UserContext } from "../services/userContextProvider";
+import { User } from "../types/user.type";
 
 type PropType = {
-    isClient:any
-}
+  isClient: any;
+};
 
 type getOnlineUsers = {
-    getOnlineUsers: User[]
-}
+  getOnlineUsers: User[];
+};
 
 type SubscriptionData = {
-    data:getOnlineUsers
-}
+  data: getOnlineUsers;
+};
+
+const useStyles = createStyles((theme) => ({
+  grid: {
+    width: "100%",
+    alignContent: "center",
+    justifyContent: "center",
+
+    [theme.fn.smallerThan("sm")]: {
+      justifyContent: "left",
+    },
+  },
+}));
+
 export default function AvailablePartners(props: PropType) {
-    // const { user } = useContext(UserContext);
-    const [data, setData] = useState([]);
-    console.log("props iscleitn", props.isClient)
+  // const { user } = useContext(UserContext);
+  const { classes } = useStyles();
 
-    const setPartners = (data:any) => {
-        console.log("B4 filter isClient", props.isClient);
-        const after = data.filter((obj:any) => obj.isClient != props.isClient)
-        console.log("After filter", after);
-        setData(after);
-    }
+  const [data, setData] = useState([]);
 
-    const { loading, error, data: dataFromQuery } = useQuery<any>(GET_ONLINE_USERS, {
-        fetchPolicy: 'no-cache',
-        onCompleted:(data) => {
-            console.log("Get online", data);
-            setPartners(data.onlineUsers);
-        },
-        onError: (error) => {
-            console.log("Get online err", error);
-        }
-    });
+  const setPartners = (data: any) => {
+    const after = data.filter((obj: any) => obj.isClient != props.isClient);
+    setData(after);
+  };
 
-    const {   } = useSubscription<SubscriptionData>(SUBSCRIBE_ONLINE_USERS, {
-        onSubscriptionData:(options) => {
-            console.log("Options ")
-            const { subscriptionData } = options;
-            // @ts-ignore
-            console.log("Received sub data", subscriptionData.data.getOnlineUsers);
-            // @ts-ignore
-            if (subscriptionData?.data?.getOnlineUsers == undefined) return;
-            // @ts-ignore
-            setPartners(subscriptionData.data.getOnlineUsers);
-        }
-    });
+  const {
+    loading,
+    error,
+    data: dataFromQuery,
+  } = useQuery<any>(GET_ONLINE_USERS, {
+    fetchPolicy: "no-cache",
+    onCompleted: (data) => {
+      console.log("Get online", data);
+      setPartners(data.onlineUsers);
+    },
+    onError: (error) => {
+      console.log("Get online err", error);
+    },
+  });
 
-    if (loading) return <p>Loading...</p>
-    if (error) {
-        console.log(error);
-        return <p>Error</p>
-    }
+  const {} = useSubscription<SubscriptionData>(SUBSCRIBE_ONLINE_USERS, {
+    onSubscriptionData: (options) => {
+      console.log("Options ");
+      const { subscriptionData } = options;
+      // @ts-ignore
+      console.log("Received sub data", subscriptionData.data.getOnlineUsers);
+      // @ts-ignore
+      if (subscriptionData?.data?.getOnlineUsers == undefined) return;
+      // @ts-ignore
+      setPartners(subscriptionData.data.getOnlineUsers);
+    },
+  });
 
-    if (data == undefined) return <p>Rip</p>
+  if (loading) return <p>Loading...</p>;
+  if (error) {
+    console.log(error);
+    return <p>Error</p>;
+  }
 
-    return (
-        <ul>
-            { data.map((obj:any, idx:number) => {
-                 return <li key={idx}>{obj.username}</li> 
-            }) }
-        </ul>
-    )
+  if (data == undefined) return <p>Rip</p>;
 
+  return (
+    <ul>
+      {data.map((obj: any, idx: number) => {
+        return (
+          <SimpleGrid
+            cols={3}
+            breakpoints={[
+              { maxWidth: 755, cols: 2, spacing: "lg" },
+              { maxWidth: 600, cols: 1, spacing: "lg" },
+            ]}
+            spacing="lg"
+            className={classes.grid}
+          >
+            <UserCard username={obj.username} />
+          </SimpleGrid>
+        );
+      })}
+    </ul>
+  );
 }

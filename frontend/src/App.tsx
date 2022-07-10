@@ -7,7 +7,6 @@ import { Title } from "@mantine/core";
 
 function App() {
   const user = useContext(UserContext);
-  {console.log(user)}
 
   //if (user === undefined) return <Title>Help</Title>;
   if (user?.token == null) return <LoginPage />;

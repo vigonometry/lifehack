@@ -8,6 +8,7 @@ import AvailablePartners from "./AvailablePartners";
 import { useSubscription } from "@apollo/client";
 import { SUBSCRIBE_ONLINE_USERS, TEST_SUB } from "../queries/users";
 
+
 const HomePage = () => {
   const { user, setUser, setToken } = useContext(UserContext);
   console.log("User in home", user);
@@ -41,10 +42,9 @@ const HomePage = () => {
 });
 
   return (
-    <Stack>
+    <Stack p={20}>
       <Center>
           <Title>Welcome, {user?.username}</Title>
-          <p>{JSON.stringify(subLoad)}</p>
         </Center>
 
         <Center>

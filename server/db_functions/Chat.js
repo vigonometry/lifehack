@@ -8,11 +8,7 @@ import {
 const schemaTypes = mongoose.Schema.Types;
 
 export const ChatSchema = mongoose.Schema({
-  clientId: {
-    type: schemaTypes.String,
-    required: [true, "This field cannot be empty."],
-  },
-  counsellorId: {
+  userId: {
     type: schemaTypes.String,
     required: [true, "This field cannot be empty."],
   },
@@ -20,13 +16,6 @@ export const ChatSchema = mongoose.Schema({
 
 export const ChatObject = mongoose.model("Chat", ChatSchema);
 
-export const createChat = (chat) => {
-  const httpResponse = new ChatObject({ ...chat })
-    .save()
-    .then((res) => ({ response: res._id }))
-    .catch((err) => ({ error: err }));
-  return httpResponse;
-};
 
 export const readChats = (params) => {
   return ChatObject.find(params)
